@@ -5,33 +5,28 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", indexes = {
+        @Index(name = "Index 2", columnList = "cart_ID, product_ID", unique = true)
+})
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cart_ID", nullable = false)
     private Cart cart;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_ID", nullable = false)
+    private Product product;
 
     @Column(name = "amount", nullable = false)
     private Integer amount;
 
     @Column(name = "order_date")
     private LocalDate orderDate;
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order")
-    private Payment payment;
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
 
     public LocalDate getOrderDate() {
         return orderDate;
@@ -47,6 +42,14 @@ public class Order {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Cart getCart() {

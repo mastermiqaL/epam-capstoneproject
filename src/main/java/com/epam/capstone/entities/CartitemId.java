@@ -5,11 +5,13 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import org.hibernate.Hibernate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class CartitemId implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2915338135613985402L;
     @Column(name = "cart_ID", nullable = false)
     private Integer cartId;

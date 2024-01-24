@@ -47,16 +47,16 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "product")
-    private Set<Cartitem> cartitems = new LinkedHashSet<>();
+//    @OneToMany(mappedBy = "product")
+//    private Set<Cartitem> cartitems = new LinkedHashSet<>();
 
-    public Set<Cartitem> getCartitems() {
-        return cartitems;
-    }
-
-    public void setCartitems(Set<Cartitem> cartitems) {
-        this.cartitems = cartitems;
-    }
+//    public Set<Cartitem> getCartitems() {
+//        return cartitems;
+//    }
+//
+//    public void setCartitems(Set<Cartitem> cartitems) {
+//        this.cartitems = cartitems;
+//    }
 
     public String getDescription() {
         return description;
