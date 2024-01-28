@@ -33,9 +33,9 @@ public class UserRepositoryTests {
         user.setEmail("abc");
         user.setUsername("bca");
         user.setGender(0);
-        user.setRole("BUYER");
-        user.setPasswordHash("asdsa");
-        user.setSalt("qwe");
+//        user.setRole("BUYER");
+//        user.setPasswordHash("asdsa");
+//        user.setSalt("qwe");
         userRepository.save(user);
        // userRepository.flush(); // Flush the EntityManager
         User savedUser = userRepository.findById(23).orElseThrow(); // Assuming findByUsername returns Optional<User>

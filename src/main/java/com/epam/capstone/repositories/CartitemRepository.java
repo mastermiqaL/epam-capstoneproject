@@ -11,10 +11,7 @@ public interface CartitemRepository extends JpaRepository<Cartitem,CartitemId> {
     @Override
     Optional<Cartitem> findById(CartitemId cartitemId);
 
-    @Override
-    boolean existsById(CartitemId cartitemId);
-
-
     List<Cartitem> findByCart_User_Id(Integer id);
+    //todo:esec gasatesti
     //todo:insertebi da delete operaciebi
 }

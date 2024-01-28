@@ -3,8 +3,6 @@ package com.epam.capstone.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -21,7 +19,7 @@ public class Product {
     private String category;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller")
@@ -46,17 +44,6 @@ public class Product {
     @Lob
     @Column(name = "description")
     private String description;
-
-//    @OneToMany(mappedBy = "product")
-//    private Set<Cartitem> cartitems = new LinkedHashSet<>();
-
-//    public Set<Cartitem> getCartitems() {
-//        return cartitems;
-//    }
-//
-//    public void setCartitems(Set<Cartitem> cartitems) {
-//        this.cartitems = cartitems;
-//    }
 
     public String getDescription() {
         return description;
@@ -114,11 +101,11 @@ public class Product {
         this.seller = seller;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -1,5 +1,6 @@
 package com.epam.capstone.repositories;
 
+import com.epam.capstone.dto.AddressDto;
 import com.epam.capstone.entities.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 

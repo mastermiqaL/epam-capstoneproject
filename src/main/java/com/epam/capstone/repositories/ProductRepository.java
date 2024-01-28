@@ -1,14 +1,11 @@
 package com.epam.capstone.repositories;
 
 import com.epam.capstone.entities.Product;
-import com.epam.capstone.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
     //TODO:insertebi updatebi da delete operaciebi minda
 
     Optional<Product> findById(Integer id);
-    //for seller account information
-    @Query(value = "SELECT u FROM User u INNER JOIN Product p ON p.seller = u.id WHERE p.id = :productId",nativeQuery = true)
-    Optional<User> findSellerByProduct_Id(@Param("productId") Integer productId);
+//    //for seller account information
+//    @Query(value = "SELECT u FROM User u INNER JOIN Product p ON p.seller = u.id WHERE p.id = :productId",nativeQuery = true)
+//    Optional<User> findSellerByProduct_Id(@Param("productId") Integer productId);
+    //for search
+    Page<Product> findByNameContaining(String name, Pageable pageable);
 
     //seller's products
     Page<Product> findBySeller_Username(String username, Pageable pageable);

@@ -1,5 +1,6 @@
 package com.epam.capstone.entities;
 
+import com.epam.capstone.security.UserRole;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -36,28 +37,28 @@ public class User {
     @Column(name = "password_hash", nullable = false, length = 90)
     private String passwordHash;
 
-    @Column(name = "salt", nullable = false, length = 40)
-    private String salt;
+//    @Column(name = "salt", nullable = false, length = 40)
+//    private String salt;
 
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private String role;
+    private UserRole role;
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
+//    public String getSalt() {
+//        return salt;
+//    }
+//
+//    public void setSalt(String salt) {
+//        this.salt = salt;
+//    }
 
     public String getPasswordHash() {
         return passwordHash;
