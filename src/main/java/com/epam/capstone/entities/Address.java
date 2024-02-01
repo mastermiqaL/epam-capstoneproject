@@ -10,9 +10,9 @@ public class Address {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_ID")
-    private User user;
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "user_ID")
+    private Integer user;
 
     @Column(name = "country", nullable = false, length = 30)
     private String country;
@@ -81,11 +81,11 @@ public class Address {
         this.country = country;
     }
 
-    public User getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 

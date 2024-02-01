@@ -13,11 +13,11 @@ public class RegistrationRequestDto implements Serializable {
     private  LocalDate dateOfBirth;
     private  String username;
     private  String password;
-    private  String repeatedPassword;
 
 
 
-    public RegistrationRequestDto(String firstName, String lastName, String email, String contactNumber, Integer gender, LocalDate dateOfBirth, String username, String password, String repeatedPassword) {
+
+    public RegistrationRequestDto(String firstName, String lastName, String email, String contactNumber, Integer gender, LocalDate dateOfBirth, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,7 +26,7 @@ public class RegistrationRequestDto implements Serializable {
         this.dateOfBirth = dateOfBirth;
         this.username = username;
         this.password = password;
-        this.repeatedPassword = repeatedPassword;
+
     }
     public RegistrationRequestDto(){}
 
@@ -34,9 +34,6 @@ public class RegistrationRequestDto implements Serializable {
         return password;
     }
 
-    public String getRepeatedPassword() {
-        return repeatedPassword;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -97,4 +94,3 @@ public class RegistrationRequestDto implements Serializable {
                 "username = " + username + ")";
     }
 }
-//TODO:dasamatereblia hashchodeshi da equalshi password da reoeatedPassword

@@ -5,16 +5,14 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import org.hibernate.Hibernate;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class CartitemId implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 2915338135613985402L;
-    @Column(name = "cart_ID", nullable = false)
-    private Integer cartId;
+    private static final long serialVersionUID = 905481177322639259L;
+    @Column(name = "user_ID", nullable = false)
+    private Integer userId;
     @Column(name = "product_ID", nullable = false)
     private Integer productId;
 
@@ -26,17 +24,17 @@ public class CartitemId implements Serializable {
         this.productId = productId;
     }
 
-    public Integer getCartId() {
-        return cartId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setCartId(Integer cartId) {
-        this.cartId = cartId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, cartId);
+        return Objects.hash(productId, userId);
     }
 
     @Override
@@ -45,6 +43,6 @@ public class CartitemId implements Serializable {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         CartitemId entity = (CartitemId) o;
         return Objects.equals(this.productId, entity.productId) &&
-                Objects.equals(this.cartId, entity.cartId);
+                Objects.equals(this.userId, entity.userId);
     }
 }

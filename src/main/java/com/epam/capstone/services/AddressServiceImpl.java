@@ -2,10 +2,10 @@ package com.epam.capstone.services;
 
 import com.epam.capstone.dto.AddressDto;
 import com.epam.capstone.dto.AddressDtoMapper;
+import com.epam.capstone.dto.AddressPlacingDto;
 import com.epam.capstone.entities.Address;
 import com.epam.capstone.repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,13 +21,21 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public AddressDto getAddressByUserId(Integer id) {
-        Address address=addressRepository.findByUser_Id(id).get();
+        Address address=addressRepository.findByUser(id).get();
         return addressDtoMapper.apply(address);
     }
 
     @Override
-    public Address saveAddress(Address address) {
-        return addressRepository.save(address);
+    public void saveAddress(AddressPlacingDto addressPlacingDto,Integer userId) {
+        Address address = new Address();
+        address.setUser(userId);
+        address.setCountry(addressPlacingDto.getCountry());
+        address.setCity(addressPlacingDto.getCity());
+        address.setPostalcode(addressPlacingDto.getPostalcode());
+        address.setStreet(addressPlacingDto.getStreet());
+        address.setHouseNumber(addressPlacingDto.getHouseNumber());
+        address.setAdditionalNotes(addressPlacingDto.getAdditionalNotes());
+         addressRepository.save(address);
     }
 
     @Override

@@ -53,15 +53,6 @@ public class ProductController {
         return productService.getStartPageProducts(categories, pagable);
     }
 
-//    @GetMapping(value = "/products/{seller_id}")
-//    public List<ProductBasicDto> getProductsBySellerId(
-//            @PathVariable Integer  seller_id,
-//            @RequestParam(name = "page",defaultValue = "0") int page,
-//            @RequestParam(name = "size",defaultValue = "20") int size){
-//        PageRequest pageable =PageRequest.of(page,size);
-//        return productService.getProductsBySellerId(seller_id,pageable);
-//    }
-
 
     @GetMapping(value = "/products/seller/{seller_username}")
     public List<ProductBasicDto> getProductsBySellerUsername(
@@ -98,8 +89,7 @@ public class ProductController {
         return productService.getFilteredAndSortedProducts(categories, minPrice, maxPrice, isSecondHand, sortFields, sortDirections, pageable);
     }
 
-    //    @PostMapping
-//    public ResponseEntity<Product> saveProduct(@RequestBody )
+
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/products/delete/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer productId) {

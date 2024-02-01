@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "orders", indexes = {
-        @Index(name = "Index 2", columnList = "cart_ID, product_ID", unique = true)
+        @Index(name = "Index 2", columnList = "user_ID, product_ID")
 })
 public class Order {
     @Id
@@ -15,8 +15,8 @@ public class Order {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cart_ID", nullable = false)
-    private Cart cart;
+    @JoinColumn(name = "user_ID", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_ID", nullable = false)
@@ -52,12 +52,12 @@ public class Order {
         this.product = product;
     }
 
-    public Cart getCart() {
-        return cart;
+    public User getUser() {
+        return user;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getId() {

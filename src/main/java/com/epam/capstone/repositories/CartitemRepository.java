@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface CartitemRepository extends JpaRepository<Cartitem,CartitemId> {
-    @Override
+public interface CartitemRepository extends JpaRepository<Cartitem, CartitemId> {
+
     Optional<Cartitem> findById(CartitemId cartitemId);
 
-    List<Cartitem> findByCart_User_Id(Integer id);
+    List<Cartitem> findByUserId(Integer id);
+
+
     //todo:esec gasatesti
     //todo:insertebi da delete operaciebi
 }

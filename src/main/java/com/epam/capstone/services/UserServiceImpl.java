@@ -1,14 +1,11 @@
 package com.epam.capstone.services;
 
-import com.epam.capstone.dto.AddressDto;
 import com.epam.capstone.dto.RegistrationRequestDto;
 import com.epam.capstone.dto.UserDto;
 import com.epam.capstone.dto.UserDtoMapper;
-import com.epam.capstone.entities.Address;
 import com.epam.capstone.entities.User;
 import com.epam.capstone.repositories.UserRepository;
 import com.epam.capstone.security.UserRole;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
