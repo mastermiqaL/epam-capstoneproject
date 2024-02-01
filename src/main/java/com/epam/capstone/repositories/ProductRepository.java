@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
     Page<Product> findByNameContaining(String name, Pageable pageable);
 
     //seller's products
-    Page<Product> findBySeller_Username(String username, Pageable pageable);
+
+    Page<Product> findBySellerUsername(String username, Pageable pageable);
 
     //for general products
     Page<Product> findAll(Pageable pageable);

@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Autowired
+
 
 
 
@@ -37,9 +37,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto getUserByUsername(String username) {
-        User user =userRepository.findByUsername(username).get();
-        return userDtoMapper.apply(user);
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).get();
     }
 
 

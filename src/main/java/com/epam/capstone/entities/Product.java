@@ -1,5 +1,6 @@
 package com.epam.capstone.entities;
 
+import com.epam.capstone.entities.enums.IsSecondHandEnum;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -24,6 +25,12 @@ public class Product {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller")
     private User seller;
+//    @Column(name = "seller")
+//    private Integer sellerId;
+//
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "seller", insertable = false, updatable = false)
+//    private User seller;
 
     @Column(name = "stock")
     private Integer stock;
@@ -34,9 +41,9 @@ public class Product {
     @Column(name = "rating")
     private Integer rating;
 
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "secondhand", nullable = false)
-    private String secondhand;
+    private IsSecondHandEnum secondhand;
 
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
@@ -61,11 +68,11 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public String getSecondhand() {
+    public IsSecondHandEnum getSecondhand() {
         return secondhand;
     }
 
-    public void setSecondhand(String secondhand) {
+    public void setSecondhand(IsSecondHandEnum secondhand) {
         this.secondhand = secondhand;
     }
 

@@ -1,5 +1,7 @@
 package com.epam.capstone.dto;
 
+import com.epam.capstone.entities.enums.IsSecondHandEnum;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -13,11 +15,11 @@ public class ProductDto implements Serializable {
     private final Integer stock;
     private final LocalDate placeDate;
     private final Integer rating;
-    private final String secondhand;
+    private final IsSecondHandEnum secondhand;
     private final String imageUrl;
     private final String description;
 
-    public ProductDto(Integer id, String name, String category, Double price, String sellerUsername, Integer stock, LocalDate placeDate, Integer rating, String secondhand, String imageUrl, String description) {
+    public ProductDto(Integer id, String name, String category, Double price, String sellerUsername, Integer stock, LocalDate placeDate, Integer rating, IsSecondHandEnum secondhand, String imageUrl, String description) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -63,7 +65,7 @@ public class ProductDto implements Serializable {
         return rating;
     }
 
-    public String getSecondhand() {
+    public IsSecondHandEnum getSecondhand() {
         return secondhand;
     }
 

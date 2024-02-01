@@ -1,9 +1,10 @@
 package com.epam.capstone.dto;
 
 import com.epam.capstone.entities.Address;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
-
+@Component
 public class AddressDtoMapper implements Function<Address,AddressDto> {
     @Override
     public AddressDto apply(Address address) {

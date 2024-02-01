@@ -6,7 +6,7 @@ import com.epam.capstone.entities.User;
 
 public interface UserService {
     UserDto getUserById(Integer id);
-    UserDto getUserByUsername(String username);
+    User getUserByUsername(String username);
    // UserDto getUserByProductId(Integer id);
     void saveUser(RegistrationRequestDto requestDto);
     void deleteUser(Integer id);
