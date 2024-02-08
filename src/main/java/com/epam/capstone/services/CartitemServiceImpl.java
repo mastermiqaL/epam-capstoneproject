@@ -11,6 +11,7 @@ import com.epam.capstone.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,8 +50,10 @@ public class CartitemServiceImpl implements CartitemService{
 
     @Override
     public Cartitem getCartitem(CartitemId cartitemId) {
-        return cartitemRepository.findById(cartitemId).get();
+        return cartitemRepository.findById(cartitemId)
+                .orElseThrow(() -> new NoSuchElementException("Cartitem not found with id: " + cartitemId));
     }
+
 
     @Override
     public void deleteCartitem(CartitemId cartitemId) {

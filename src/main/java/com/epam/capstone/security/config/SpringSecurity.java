@@ -26,16 +26,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurity {
     private final UserDetailsService userDetailsService;
 
-    private final JwtAuthFilter authFilter;
+    //  private final JwtAuthFilter authFilter;
 
 
-    public SpringSecurity(UserDetailsService userDetailsService, JwtAuthFilter authFilter) {
+    public SpringSecurity(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.authFilter = authFilter;
+        //   this.authFilter = authFilter;
     }
 
     @Bean
-    public static PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -66,30 +66,18 @@ public class SpringSecurity {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/products/add","/products/delete/{productId}").authenticated()
-                        .requestMatchers("/products/**", "/register", "/login","/home","/users/**").permitAll()
+                        .requestMatchers("/products/add", "/products/delete/{productId}").authenticated() // These paths require authentication
+                        .requestMatchers("/products/**", "/product/search", "/register", "/register/save", "/login", "/home", "/users/**", "/images/**").permitAll() // Publicly accessible paths
                         .anyRequest().authenticated())
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll())
                 .build();
     }
 
 
-
-//        http.csrf().disable()
-//                .authorizeHttpRequests((authorize) ->
-//                        authorize.requestMatchers("/register/**").permitAll()
-//                                .requestMatchers("/index").permitAll()
-//                                .requestMatchers("/users").hasRole("ADMIN")
-//                ).formLogin(
-//                        form -> form
-//                                .loginPage("/login")
-//                                .loginProcessingUrl("/login")
-//                                .defaultSuccessUrl("/users")
-//                                .permitAll()
-//                ).logout(
-//                        logout -> logout
-//                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                                .permitAll()
-//                );
-//        return http.build();
-    }
+}

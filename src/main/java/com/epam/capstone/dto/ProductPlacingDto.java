@@ -1,18 +1,20 @@
 package com.epam.capstone.dto;
 
+import com.epam.capstone.entities.enums.IsSecondHandEnum;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public class ProductPlacingDto implements Serializable {
-    private final String name;
-    private final String category;
-    private final Double price;
-    private final Integer stock;
-    private final String secondhand;
-    private final String imageUrl;
-    private final String description;
+    private  String name;
+    private  String category;
+    private  Double price;
+    private  Integer stock;
+    private IsSecondHandEnum secondhand;
+    private  String imageUrl;
+    private  String description;
 
-    public ProductPlacingDto(String name, String category, Double price, Integer stock, String secondhand, String imageUrl, String description) {
+    public ProductPlacingDto(String name, String category, Double price, Integer stock, IsSecondHandEnum secondhand, String imageUrl, String description) {
         this.name = name;
         this.category = category;
         this.price = price;
@@ -21,6 +23,7 @@ public class ProductPlacingDto implements Serializable {
         this.imageUrl = imageUrl;
         this.description = description;
     }
+    public ProductPlacingDto(){}
 
     public String getName() {
         return name;
@@ -38,7 +41,7 @@ public class ProductPlacingDto implements Serializable {
         return stock;
     }
 
-    public String getSecondhand() {
+    public IsSecondHandEnum getSecondhand() {
         return secondhand;
     }
 
@@ -48,6 +51,34 @@ public class ProductPlacingDto implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public void setSecondhand(IsSecondHandEnum secondhand) {
+        this.secondhand = secondhand;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

@@ -30,9 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
-//            return new org.springframework.security.core.userdetails.User(user.getEmail(),
-//                    user.getPasswordHash(),
-//                    Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString())));
             return new CustomUserDetails(user);
         } else {
             throw new UsernameNotFoundException("Invalid username or password.");

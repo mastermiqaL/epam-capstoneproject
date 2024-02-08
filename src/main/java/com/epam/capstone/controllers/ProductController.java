@@ -6,7 +6,9 @@ import com.epam.capstone.dto.ProductPlacingDto;
 import com.epam.capstone.entities.Product;
 import com.epam.capstone.security.CustomUserDetails;
 import com.epam.capstone.services.ProductServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -14,43 +16,67 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
 
-@RestController
+@Controller
 public class ProductController {
     private final ProductServiceImpl productService;
 
-    @Autowired
+
     public ProductController(ProductServiceImpl productService) {
         this.productService = productService;
     }
 
     @GetMapping(value = "/products")
-    public List<ProductBasicDto> getProducts(
+    public String getProducts(
+            Model model,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "12") int size) {
         PageRequest pageable = PageRequest.of(page, size);
-        return productService.getAllProducts(pageable);
+        List<ProductBasicDto> products= productService.getAllProducts(pageable);
+        model.addAttribute("products",products);
+        return "products";
     }
 
     @GetMapping(value = "/products/id/{product_id}")
-    public ProductDto getProductById(
+    public String getProductById(
+            Model model,
             @PathVariable Integer product_id
     ) {
-        return productService.getProductDtoById(product_id);
+        ProductDto product = productService.getProductDtoById(product_id);
+        model.addAttribute("product",product);
+        return "productinfo";
     }
 
     @GetMapping(value = "/home")
-    public List<ProductBasicDto> getHomePageProducts(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "12") int size) {
+    public String getHomePage(Model model,
+                              @RequestParam(name = "page", defaultValue = "0") int page,
+                              @RequestParam(name = "size", defaultValue = "12") int size
+    ) {
 
-        PageRequest pagable = PageRequest.of(page, size);
+        PageRequest pageable = PageRequest.of(page, size);
         List<String> categories = Arrays.asList("Tech", "Books", "Plants");
-        return productService.getStartPageProducts(categories, pagable);
+
+        List<ProductBasicDto> productBasicDtos = productService.getStartPageProducts(categories, pageable);
+
+        List<ProductBasicDto> techProducts = productBasicDtos.subList(0, 4);
+//        List<ProductBasicDto> booksProducts = productBasicDtos.subList(4, 8);
+//        List<ProductBasicDto> plantsProducts = productBasicDtos.subList(8, 12);
+
+        model.addAttribute("techProducts", techProducts);
+        model.addAttribute("search", "");
+//        model.addAttribute("booksProducts", booksProducts);
+//        model.addAttribute("plantsProducts", plantsProducts);
+
+        return "home";
     }
 
 
@@ -65,18 +91,37 @@ public class ProductController {
         return productService.getProductsBySellerUsername(seller_username, pageable);
     }
 
-    @GetMapping(value = "/products/search/{name}")
-    public List<ProductBasicDto> getSearchResult(
-            @PathVariable String name,
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "page", defaultValue = "12") int size
-    ) {
+    @GetMapping(value = "/products/search")
+    public String searchProducts(Model model,
+                                 @RequestParam("productName") String productName,
+                                 @RequestParam(name = "page", defaultValue = "0") int page,
+                                 @RequestParam(name = "size", defaultValue = "12") int size) {
         PageRequest pageable = PageRequest.of(page, size);
-        return productService.getSearchResult(name, pageable);
+        List<ProductBasicDto> searchResults = productService.getSearchResult(productName, pageable);
+
+        // Add the search results to the model
+        model.addAttribute("products", searchResults);
+
+        // Other existing code
+
+        return "products";
     }
 
+//    @ResponseBody
+//    @GetMapping(value = "/products/search/{name}")
+//    public List<ProductBasicDto> getSearchResult(
+//
+//            @PathVariable String name,
+//            @RequestParam(name = "page", defaultValue = "0") int page,
+//            @RequestParam(name = "page", defaultValue = "12") int size
+//    ) {
+//        PageRequest pageable = PageRequest.of(page, size);
+//        return productService.getSearchResult(name, pageable);
+//    }
+
     @GetMapping(value = "/products/filter/")
-    public List<ProductBasicDto> getFilteredAndSortedProducts(
+    public String  getFilteredAndSortedProducts(
+            Model model,
             @RequestParam(required = false) List<String> categories,
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice,
@@ -86,12 +131,14 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         PageRequest pageable = PageRequest.of(page, size);
-        return productService.getFilteredAndSortedProducts(categories, minPrice, maxPrice, isSecondHand, sortFields, sortDirections, pageable);
+        List<ProductBasicDto> products= productService.getFilteredAndSortedProducts(categories, minPrice, maxPrice, isSecondHand, sortFields, sortDirections, pageable);
+        model.addAttribute("products",products);
+        return "products";
     }
 
 
     @PreAuthorize("hasRole('USER')")
-    @DeleteMapping("/products/delete/{productId}")
+    @DeleteMapping(value = "/products/delete/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer productId) {
         Product product = productService.getProductById(productId);
 
@@ -106,9 +153,29 @@ public class ProductController {
         }
     }
     @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/product/add")
+    public String productAddForm(Model model){
+        model.addAttribute("product",new ProductPlacingDto());
+        return "placeproduct";
+    }
+
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/products/add")
-    public ResponseEntity<String> addProduct(@RequestBody ProductPlacingDto product) {
-        productService.saveProduct(product);
-        return ResponseEntity.ok("Product added successfully.");
+    public String addProduct(@Valid @ModelAttribute("product") ProductPlacingDto product,
+                                             BindingResult result,
+                                             Model model,
+                                             RedirectAttributes redirectAttributes
+    ) {
+        try {
+            if (result.hasErrors()) {
+                return "placeproduct";
+            }
+            productService.saveProduct(product);
+            redirectAttributes.addFlashAttribute("successMessage","Product added successfully!");
+            return "profile";
+        }catch (Exception e){
+            model.addAttribute("registrationError", "An error occurred during registration. Please try again.");
+            return "placeproduct";
+        }
     }
 }

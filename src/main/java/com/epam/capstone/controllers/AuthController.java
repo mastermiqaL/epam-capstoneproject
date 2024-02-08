@@ -5,21 +5,17 @@ import com.epam.capstone.dto.RegistrationRequestDto;
 import com.epam.capstone.entities.User;
 import com.epam.capstone.services.JwtService;
 import com.epam.capstone.services.UserServiceImpl;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +32,7 @@ public class AuthController {
 
     private static final Logger logger = Logger.getLogger(AuthController.class.getName());
 
-    @Autowired
+
     public AuthController(UserServiceImpl userService, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.jwtService = jwtService;
@@ -44,10 +40,20 @@ public class AuthController {
     }
 
 
+    @GetMapping(value = "/account")
+    public String redirectToProfileOrLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.isAuthenticated()) {
+            return "redirect:/profile";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
 
     @GetMapping("/index")
     public String home() {
-        return "index";
+        return "home";
     }
 
     @GetMapping("/login")
@@ -56,60 +62,57 @@ public class AuthController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AuthRequestDto authRequestDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authRequestDto.getEmail(),
-                        authRequestDto.getPassword()
-                )
-        );
-        logger.info("past authentication object");
-        if (authentication.isAuthenticated()) {
-            logger.info("is authenticated");
-            String token = jwtService.generateToken(authRequestDto.getEmail());
-            logger.info("token generated");
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization",token);
-            return new ResponseEntity<>("Login successful", headers, HttpStatus.OK);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
-        }
+//    @PostMapping("/login")
+//    public String login(@RequestBody AuthRequestDto authRequestDto) {
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            authRequestDto.getEmail(),
+//                            authRequestDto.getPassword()
+//                    )
+//            );
+//
+//            if (authentication.isAuthenticated()) {
+//                return "redirect:/home";
+//            } else {
+//                return "redirect:/login";
+//            }
+//        } catch (AuthenticationException e) {
+//            return "redirect:/login?error=Authentication failed. Please check your credentials.";
+//        }
+//
+//    }
 
-    }
 
-
-    @GetMapping("/register")
+    @GetMapping(value = "/register")
     public String showRegistrationForm(Model model) {
-        RegistrationRequestDto user = new RegistrationRequestDto();
-        model.addAttribute("user", user);
+        model.addAttribute("user", new RegistrationRequestDto());
         return "register";
     }
 
-
-
-    @PostMapping("/register")
-    public ResponseEntity<String> registration(@Validated @RequestBody RegistrationRequestDto registrationRequestDto,
-                                               BindingResult result) {
-
-        User existingUser = userService.getUserByEmail(registrationRequestDto.getEmail());
-
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null, "There is already an account registered with the same email");
-        }
-
-        if (result.hasErrors()) {
-            // Extract field errors for detailed information
-            StringBuilder errors = new StringBuilder("Registration failed. Check the provided data. Errors: ");
-            for (FieldError error : result.getFieldErrors()) {
-                errors.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
+    @PostMapping("/register/save")
+    public String registration(@Valid @ModelAttribute("user") RegistrationRequestDto registrationRequestDto,
+                               BindingResult result,
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            if (result.hasErrors()) {
+                return "register";
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors.toString());
+            User existingUser = userService.getUserByEmail(registrationRequestDto.getEmail());
+            if (existingUser != null) {
+                result.rejectValue("email", null, "There is already an account registered with the same email");
+                return "register";
+            }
+            userService.saveUser(registrationRequestDto);
+        } catch (Exception e) {
+            model.addAttribute("registrationError", "An error occurred during registration. Please try again.");
+            return "register";
         }
 
-        userService.saveUser(registrationRequestDto);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Registration successful. Please login.");
+        // Redirect to a success page or login page after successful registration
+        redirectAttributes.addFlashAttribute("successMessage", "Registration successful. Please login.");
+        return "redirect:/login"; // Assuming you have a controller handling /login
     }
 
 

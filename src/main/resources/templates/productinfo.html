@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Details</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        nav a img {
+            height: 20px;
+            width: 20px;
+            margin-top: -5px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .search-input {
+            width: 60%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .product-details {
+            display: flex;
+            margin: 20px;
+        }
+
+        .product-image {
+            flex: 2;
+            margin-right: 40px; /* Increased margin */
+            margin-left: 30px;
+        }
+
+        .product-image img {
+            width: 80%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .product-info {
+            flex: 1;
+            margin-right: 20px;
+
+            text-align: center; /* Centering product info */
+        }
+
+        .product-info h2 {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+             text-align: left;
+        }
+
+        .product-attribute {
+            margin-bottom: 5px;
+            text-align: left; /* Adjusting alignment */
+        }
+
+        .product-attribute label {
+            font-weight: bold;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: center; /* Centering price */
+        }
+
+        .product-actions {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #555;
+        }
+    </style>
+  <script src="authUtils.js"></script>
+  <script src="auth.js"></script>
+</head>
+<body>
+
+<!-- Navigation bar -->
+<nav>
+  <div style="float: left;">
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/products}">Products</a>
+    <a th:href="@{/categories}">Categories</a>
+    <a th:href="@{/about}">About</a>
+  </div>
+
+  <div style="float: right;">
+    <a th:href="@{/cart}"><img th:src="@{/img/cart.png}" alt="Cart"></a>
+    <a th:href="@{/account}"><img th:src="@{/img/account.png}" alt="Account"></a>
+  </div>
+</nav>
+
+<!-- Search bar -->
+<form action="/products/search" method="get">
+  <input class="search-input" type="text" name="productName" placeholder="I am looking for...">
+  <button type="submit">Search</button>
+</form>
+
+<div class="product-details">
+  <div class="product-image">
+    <img th:src="'/images/' +${product.imageUrl}" alt="Product Image">
+    <!--    <h2 class="product-name" th:text="${product.name}"></h2>-->
+  </div>
+
+  <div class="product-info">
+    <h2 th:text="${product.name}"></h2>
+    <div class="product-attribute">
+      <label>Product ID:</label>
+      <span th:text="${product.id}"></span>
+    </div>
+    <div class="product-attribute">
+      <label>Seller:</label>
+      <a th:href="@{'/users/profile/' + ${product.sellerUsername}}" th:text="${product.sellerUsername}"></a>
+    </div>
+    <div class="product-attribute">
+      <label>Stock:</label>
+      <span th:text="${product.stock}"></span>
+    </div>
+    <div class="product-attribute">
+      <label>Rating:</label>
+      <span th:text="${product.rating}"></span>
+    </div>
+    <div class="product-attribute">
+      <label>Second Hand:</label>
+      <span th:text="${product.secondhand}"></span>
+    </div>
+    <div class="product-attribute">
+      <label>Placing Date:</label>
+      <span th:text="${product.placeDate}"></span>
+    </div>
+    <div class="product-attribute">
+      <label>Description:</label>
+      <span th:text="${product.description}"></span>
+    </div>
+  </div>
+
+    <div class="product-actions">
+      <div class="product-price">
+        <label>Price:</label>
+        <span th:text="${product.price}+'$'"></span>
+      </div>
+      <!-- Start of the form for adding a product to the cart -->
+      <form th:action="@{'/cart/add/' + ${product.id}}" method="post">
+        <input type="hidden" name="_csrf" value="<!-- CSRF token here -->"/>
+        <button type="submit" class="button">Add to Cart</button>
+      </form>
+      <!-- Existing Buy Now button remains unchanged -->
+      <button class="button" onclick="buyNow()">Buy Now</button>
+      <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
+    </div>
+
+  </div>
+  </body>
+  </html>

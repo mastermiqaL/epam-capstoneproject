@@ -14,6 +14,4 @@ public interface CartitemRepository extends JpaRepository<Cartitem, CartitemId> 
     List<Cartitem> findByUserId(Integer id);
 
 
-    //todo:esec gasatesti
-    //todo:insertebi da delete operaciebi
 }

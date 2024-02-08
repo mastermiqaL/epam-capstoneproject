@@ -4,35 +4,47 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.validation.constraints.*;
+
+
 public class RegistrationRequestDto implements Serializable {
-    private  String firstName;
-    private  String lastName;
-    private  String email;
-    private  String contactNumber;
-    private  Integer gender;
-    private  LocalDate dateOfBirth;
-    private  String username;
-    private  String password;
+//    @NotBlank(message = "First name is required")
+    private String firstName;
+
+//    @NotBlank(message = "Last name is required")
+    private String lastName;
+
+//    @NotBlank(message = "Email is required")
+    private String email;
+
+//    @NotBlank(message = "Contact number is required")
+    private String contactNumber;
+
+
+//    @NotNull(message = "Date of birth is required")
+    private LocalDate dateOfBirth;
+
+//    @NotBlank(message = "Username is required")
+    private String username;
+
+//    @NotBlank(message = "Password is required")
+//    @Size(min = 6, message = "Password must be at least 6 characters")
+    private String password;
 
 
 
 
-    public RegistrationRequestDto(String firstName, String lastName, String email, String contactNumber, Integer gender, LocalDate dateOfBirth, String username, String password) {
+    public RegistrationRequestDto(String firstName, String lastName, String email, String contactNumber, LocalDate dateOfBirth, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.contactNumber = contactNumber;
-        this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.username = username;
         this.password = password;
 
     }
     public RegistrationRequestDto(){}
-
-    public String getPassword() {
-        return password;
-    }
 
 
     public String getFirstName() {
@@ -51,9 +63,6 @@ public class RegistrationRequestDto implements Serializable {
         return contactNumber;
     }
 
-    public Integer getGender() {
-        return gender;
-    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -61,6 +70,36 @@ public class RegistrationRequestDto implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {return password;}
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -72,14 +111,13 @@ public class RegistrationRequestDto implements Serializable {
                 Objects.equals(this.lastName, entity.lastName) &&
                 Objects.equals(this.email, entity.email) &&
                 Objects.equals(this.contactNumber, entity.contactNumber) &&
-                Objects.equals(this.gender, entity.gender) &&
                 Objects.equals(this.dateOfBirth, entity.dateOfBirth) &&
                 Objects.equals(this.username, entity.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, contactNumber, gender, dateOfBirth, username);
+        return Objects.hash(firstName, lastName, email, contactNumber, dateOfBirth, username);
     }
 
     @Override
@@ -89,7 +127,6 @@ public class RegistrationRequestDto implements Serializable {
                 "lastName = " + lastName + ", " +
                 "email = " + email + ", " +
                 "contactNumber = " + contactNumber + ", " +
-                "gender = " + gender + ", " +
                 "dateOfBirth = " + dateOfBirth + ", " +
                 "username = " + username + ")";
     }

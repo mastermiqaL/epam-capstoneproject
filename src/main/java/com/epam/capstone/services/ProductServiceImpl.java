@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
             product.setSeller(userDetails.getUser());
             product.setStock(productPlacingDto.getStock());
             product.setPlaceDate(LocalDate.now());
-            product.setSecondhand(IsSecondHandEnum.valueOf(productPlacingDto.getSecondhand()));
+            product.setSecondhand(IsSecondHandEnum.valueOf(productPlacingDto.getSecondhand().toString()));
             product.setImageUrl(productPlacingDto.getImageUrl());
             product.setDescription(productPlacingDto.getDescription());
             return product;
@@ -125,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and(ProductSpecification.hasCategory(categories));
         }
 
-        if (minPrice >= 0 && maxPrice >= 0 && maxPrice >= minPrice) {
+        if (minPrice!=null && maxPrice!=null && minPrice >= 0 && maxPrice >= 0 && maxPrice >= minPrice) {
             spec = spec.and(ProductSpecification.hasPriceInRange(minPrice, maxPrice));
         }
 

@@ -23,6 +23,7 @@ public class AuthRequestDto implements Serializable {
         return password;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
