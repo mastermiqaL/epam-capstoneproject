@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+      .sidebar {
+        height: calc(100vh - 60px); /* Subtract the height of the top navbar */
+        width: 14%;
+        position: fixed;
+        z-index: 1;
+        top: 60px; /* Height of the top navbar */
+        left: 0;
+        background-color: #454545;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidebar a:not(.logout) {
+        padding: 10px 8px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #ffffff;
+        display: block;
+    }
+
+    .sidebar a:hover:not(.logout) {
+        background-color: #ddd;
+        color: black;
+    }
+
+       .logout {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 14%; /* Make sure this matches the sidebar width exactly */
+        padding: 10px 8px;
+        background-color: #860000; /* Red color for Log Out */
+        color: white;
+        text-align: left;
+        font-size: 20px;
+        box-sizing: border-box; /* Ensures padding is included in width */
+    }
+
+.form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box; /* Include padding and border in the element's width */
+        margin-bottom: 10px;
+    }
+
+    textarea {
+        height: 100px; /* Fixed height for the description field */
+    }
+
+    .button {
+        background-color: #4CAF50; /* Green background */
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .button:hover {
+        background-color: #45a049; /* Darker shade of green */
+    }
+
+    .main-content {
+        /* Add any additional styling for main-content if needed */
+        width: calc(86% - 40px); /* Adjusted width minus padding */
+        max-width: 800px; /* Maximum width of the form */
+        margin: 60px auto 0 auto; /* Centering the form */
+    }
+
+
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <div style="float: left;">
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/about}">About</a>
+    </div>
+
+    <div style="float: right;">
+        <a th:href="@{/cart}"><img th:src="@{/img/cart.png}" alt="Cart"></a>
+        <a th:href="@{/account}"><img th:src="@{/img/account.png}" alt="Account"></a>
+    </div>
+</nav>
+
+<!-- Sidebar/Vertical Navigation -->
+<div class="sidebar">
+    <a th:href="@{/users/myprofile}">Profile</a>
+    <a th:href="@{/products/myproducts}">Products</a>
+    <a th:href="@{/products/add}">Add Product</a>
+    <a th:href="@{/orders/myorders}">Orders</a>
+    <a th:href="@{/address/add}">Address</a>
+    <a th:href="@{/logout}" class="logout">Log Out</a>
+</div>
+
+<!-- Main content area -->
+
+<div class="main-content">
+    <h2>Add Address</h2>
+    <form th:action="@{/address/add/save}" th:object="${address}" method="post">
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" id="country" th:field="*{country}" required />
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" th:field="*{city}" required />
+        </div>
+        <div class="form-group">
+            <label for="postalcode">Postal Code:</label>
+            <input type="text" id="postalcode" th:field="*{postalcode}" required />
+        </div>
+        <div class="form-group">
+            <label for="street">Street:</label>
+            <input type="text" id="street" th:field="*{street}" required />
+        </div>
+        <div class="form-group">
+            <label for="houseNumber">House Number:</label>
+            <input type="text" id="houseNumber" th:field="*{houseNumber}" required />
+        </div>
+        <div class="form-group">
+            <label for="additionalNotes">Additional Notes:</label>
+            <textarea id="additionalNotes" th:field="*{additionalNotes}"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="button">Add Address</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

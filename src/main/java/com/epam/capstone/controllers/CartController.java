@@ -1,5 +1,7 @@
 package com.epam.capstone.controllers;
 
+import com.epam.capstone.dto.CartitemDto;
+import com.epam.capstone.dto.ProductBasicDto;
 import com.epam.capstone.entities.CartitemId;
 import com.epam.capstone.security.CustomUserDetails;
 import com.epam.capstone.services.CartitemService;
@@ -16,6 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
@@ -40,9 +43,16 @@ public class CartController {
         }
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
+        List<ProductBasicDto> cartItems = cartitemService.getCartItemsByUserId(userDetails.getUserId());
+        Double totalPrice=0.0;
+        for(ProductBasicDto productBasicDto : cartItems){
+           totalPrice+= productBasicDto.getPrice();
+        }
+
 
         logger.info("user is the same user who requests");
-        model.addAttribute("cartItems", cartitemService.getCartItemsByUserID(userDetails.getUserId()));
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalPrice",(float)totalPrice.doubleValue() );
         return "cart";
     }
 
@@ -100,32 +110,7 @@ public class CartController {
         }
         return "redirect:/cart";
     }
-//@DeleteMapping(value = "/cart/delete/{productId}")
-//@ResponseBody // Indicates that the return type should be written directly in the response body
-//public ResponseEntity<?> deleteCartItem(
-//        @PathVariable Integer productId
-//) {
-//    try {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
-//        }
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//
-//        CartitemId cartitemId = new CartitemId();
-//        cartitemId.setUserId(userDetails.getUserId());
-//        cartitemId.setProductId(productId);
-//
-//        if (cartitemService.getCartitem(cartitemId) != null) {
-//            cartitemService.deleteCartitem(cartitemId);
-//            return ResponseEntity.ok("Product removed successfully from cart.");
-//        } else {
-//            return ResponseEntity.badRequest().body("You don't have this product in your cart.");
-//        }
-//    } catch (Exception e) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while deleting the product.");
-//    }
-//}
+
 
 
 }

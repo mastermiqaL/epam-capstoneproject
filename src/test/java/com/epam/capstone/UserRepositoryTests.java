@@ -32,7 +32,6 @@ public class UserRepositoryTests {
         user.setContactNumber("5");
         user.setEmail("abc");
         user.setUsername("bca");
-        user.setGender(0);
 //        user.setRole("BUYER");
 //        user.setPasswordHash("asdsa");
 //        user.setSalt("qwe");

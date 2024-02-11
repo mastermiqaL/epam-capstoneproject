@@ -5,6 +5,6 @@ import com.epam.capstone.dto.AddressPlacingDto;
 
 public interface AddressService {
     AddressDto getAddressByUserId(Integer id);
-    void saveAddress(AddressPlacingDto address, Integer id);
+    void saveAddress(AddressPlacingDto address);
     void deleteAddress(Integer id);
 }

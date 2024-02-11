@@ -14,6 +14,8 @@ public interface ProductService {
     Product saveProduct(ProductPlacingDto product);
     void deleteProduct(Integer id);
     Product getProductById(Integer id);
+    List<ProductDto> getAllProducts();
+    List<ProductDto> getProductsDtoBySellerId(Integer id);
     List<ProductBasicDto> getAllProducts(Pageable pageable);
     ProductDto getProductDtoById(Integer id);
     List<ProductBasicDto> getSearchResult(String name,Pageable pageable);

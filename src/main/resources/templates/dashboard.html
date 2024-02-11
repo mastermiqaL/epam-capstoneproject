@@ -1,0 +1,88 @@
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin Dashboard</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+
+            .logout-button {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                background-color: #ff4d4d;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .product-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .product-item {
+                border: 1px solid #ddd;
+                margin: 10px;
+                padding: 20px;
+                width: calc(33.333% - 20px);
+                box-sizing: border-box;
+            }
+
+            .product-image {
+                width: 100px;
+                height: auto;
+                margin-bottom: 10px;
+            }
+
+            .delete-button {
+                background-color: #ff4d4d;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+
+    <button onclick="location.href='/logout'" class="logout-button">Logout</button>
+
+    <div class="main-content">
+        <div class="product-container" th:if="${not #lists.isEmpty(products)}">
+            <div th:each="product : ${products}" class="product-item">
+                <img th:src="'/images/'+${product.imageUrl}" alt="Product Image" class="product-image" />
+                <div class="product-info">
+                    <h3 th:text="${product.name}"></h3>
+                    <p>Category: <span th:text="${product.category}"></span></p>
+                    <p>Price: <span th:text="${product.price}"></span></p>
+                    <p>Seller: <span th:text="${product.sellerUsername}"></span></p>
+                    <p>Stock: <span th:text="${product.stock}"></span></p>
+                    <p>Placed on: <span th:text="${product.placeDate}"></span></p>
+                    <p>Rating: <span th:text="${product.rating}"></span></p>
+                    <p>Second Hand: <span th:text="${product.secondhand}"></span></p>
+                    <p>Description: <span th:text="${product.description}"></span></p>
+                </div>
+                <form th:action="@{'/admin/products/delete/' + ${product.id}}" method="post">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </div>
+        </div>
+        <div th:unless="${not #lists.isEmpty(products)}">
+            <p>No products found.</p>
+        </div>
+    </div>
+
+    </body>
+    </html>

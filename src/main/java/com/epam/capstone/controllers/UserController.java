@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -27,6 +28,18 @@ public class UserController {
         this.userBasicDtoMapper = userBasicDtoMapper;
     }
 
+    @GetMapping(value = "/users/myprofile")
+    public String profileForm(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
+            return "error";
+        }
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        UserDto userDto= userService.getUserById(userDetails.getUserId());
+        model.addAttribute("userDto",userDto);
+        return "profile";
+    }
+
 
     @GetMapping(value = "/users/profile/{username}")
     public ResponseEntity<?> getUserInfo(@PathVariable String username) {
@@ -36,8 +49,6 @@ public class UserController {
         Object principal = authentication.getPrincipal();
 
         if (!(principal instanceof CustomUserDetails)) {
-            // Respond with a status code that indicates the client should redirect
-            // 401 Unauthorized or 403 Forbidden is typically used in REST APIs
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Please, login");
         }
         CustomUserDetails userDetails = (CustomUserDetails) principal;

@@ -2,6 +2,8 @@ package com.epam.capstone.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "payments")
 public class Payment {
@@ -18,13 +20,13 @@ public class Payment {
     private Integer amount;
 
     @Column(name = "payment_date", nullable = false)
-    private Integer paymentDate;
+    private LocalDate paymentDate;
 
-    public Integer getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Integer paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
 

@@ -33,7 +33,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
     //seller product list
     Page<Product> findBySeller_IdOrderByRatingDesc(Integer id, Pageable pageable);
 
+    List<Product> findBySeller_Id(Integer id);
+
+   // List<Product> findAll();
     //for home page
     Page<Product> findByCategoryIn(List<String> categories, Pageable pageable);
+
 
 }

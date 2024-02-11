@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Registration</title>
+  <title>Cart</title>
   <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,12 +14,13 @@
         nav {
             background-color: #333;
             overflow: hidden;
-            color: white;
         }
 
         nav a {
             float: left;
             display: block;
+            color: white;
+            text-align: center;
             padding: 14px 16px;
             text-decoration: none;
         }
@@ -29,16 +30,12 @@
             color: black;
         }
 
-        .registration-form {
-            margin: 20px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            margin: auto;
-            margin-top: 50px;
+        nav a img {
+            height: 20px;
+            width: 20px;
+            margin-top: -5px;
         }
+
 
         .form-group {
             margin-bottom: 20px;
@@ -178,81 +175,10 @@
     <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
     <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
     <div th:if="${failureMessage}" class="failure-message" th:text="${failureMessage}"></div>
-    <div class="cart-total" th:text="'Total: ' + ${cartTotal} + '$'">Total Price</div>
-    <a href="/checkout" class="checkout-button">Go to checkout</a>
-  </div>
+    <div class="cart-total" th:text="'Total: ' + ${totalPrice} + '$'">Total Price</div>
+    <a th:href="@{/checkout}" class="checkout-button">Go to checkout</a>  </div>
 </div>
 
-<script>
-
-    var cartItems = /*[[${cartItems}]]*/ [];
-
-
-    function updateProductContainer(cartItems) {
-        var productContainer = document.getElementById('productContainer');
-        productContainer.innerHTML = ''; // Clear existing content
-        var cartTotal = 0;
-
-        if (cartItems && cartItems.length > 0) {
-            cartItems.forEach(function (item) {
-                var cartItemDiv = document.createElement('div');
-                cartItemDiv.className = 'cart-item';
-
-                var checkBox = document.createElement('input');
-                checkBox.type = 'checkbox';
-                checkBox.className = 'cart-item-checkbox';
-                checkBox.value = item.id;
-
-                var productImage = document.createElement('img');
-                productImage.src = item.imageUrl;
-                productImage.alt = item.name + ' image';
-                productImage.className = 'cart-item-image';
-
-                var productInfo = document.createElement('div');
-                productInfo.className = 'cart-item-info';
-
-                var productName = document.createElement('p');
-                productName.className = 'cart-item-name';
-                productName.innerText = item.name;
-
-                var productPrice = document.createElement('p');
-                productPrice.className = 'cart-item-price';
-                productPrice.innerText = '$' + item.price.toFixed(2);
-
-                cartTotal += item.price;
-
-                productInfo.appendChild(productName);
-
-                cartItemDiv.appendChild(checkBox);
-                cartItemDiv.appendChild(productImage);
-                cartItemDiv.appendChild(productInfo);
-                cartItemDiv.appendChild(productPrice);
-
-                productContainer.appendChild(cartItemDiv);
-            });
-
-            var totalDiv = document.createElement('div');
-            totalDiv.className = 'cart-total';
-            totalDiv.innerText = 'Total: $' + cartTotal.toFixed(2);
-
-            productContainer.appendChild(totalDiv);
-
-<!--            var removeButton = document.createElement('button');-->
-<!--            removeButton.innerText = 'Remove Selected';-->
-<!--            removeButton.className = 'remove-button';-->
-<!--            removeButton.onclick = function() {-->
-
-<!--            };-->
-
-<!--            productContainer.appendChild(removeButton);-->
-        } else {
-            productContainer.innerHTML = '<p>Your cart is empty.</p>'; // Show a message if the cart is empty
-        }
-    }
-
-
-    updateProductContainer(cartItems);
-</script>
 
 </body>
 </html>

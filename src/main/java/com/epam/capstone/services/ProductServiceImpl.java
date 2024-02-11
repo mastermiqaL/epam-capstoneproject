@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
             product.setSecondhand(IsSecondHandEnum.valueOf(productPlacingDto.getSecondhand().toString()));
             product.setImageUrl(productPlacingDto.getImageUrl());
             product.setDescription(productPlacingDto.getDescription());
-            return product;
+            return  productRepository.save(product);
         } else {
             // Handle the case where authentication or user details are not available
             throw new IllegalStateException("Unable to retrieve authenticated user details.");
@@ -66,6 +66,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Integer id) {
         return productRepository.findById(id).get();
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+        return  productRepository.findAll().stream()
+                .map(productDtoMapper)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getProductsDtoBySellerId(Integer id) {
+        List<Product> products = productRepository.findBySeller_Id(id);
+        return products.stream()
+                .map(productDtoMapper)
+                .collect(Collectors.toList());
     }
 
     //TODO: custom exceptions for notfound action
@@ -108,6 +123,8 @@ public class ProductServiceImpl implements ProductService {
                 .map(productBasicDtoMapper)
                 .collect(Collectors.toList());
     }
+
+
 
     @Override
     public List<ProductBasicDto> getProductsBySellerUsername(String username, Pageable pageable) {

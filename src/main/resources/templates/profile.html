@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+      .sidebar {
+        height: calc(100vh - 60px); /* Subtract the height of the top navbar */
+        width: 14%;
+        position: fixed;
+        z-index: 1;
+        top: 60px; /* Height of the top navbar */
+        left: 0;
+        background-color: #454545;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidebar a:not(.logout) {
+        padding: 10px 8px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #ffffff;
+        display: block;
+    }
+
+    .sidebar a:hover:not(.logout) {
+        background-color: #ddd;
+        color: black;
+    }
+
+       .logout {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 14%; /* Make sure this matches the sidebar width exactly */
+        padding: 10px 8px;
+        background-color: #860000; /* Red color for Log Out */
+        color: white;
+        text-align: left;
+        font-size: 20px;
+        box-sizing: border-box; /* Ensures padding is included in width */
+    }
+
+    .main-content {
+        margin-left: 14%; /* Adjust if necessary to align with the sidebar */
+        margin-top: 60px; /* Offset top for the main nav bar */
+        padding: 20px;
+        box-sizing: border-box; /* Ensures padding does not add to width */
+    }
+
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+  <div style="float: left;">
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/products}">Products</a>
+    <a th:href="@{/categories}">Categories</a>
+    <a th:href="@{/about}">About</a>
+  </div>
+
+  <div style="float: right;">
+    <a th:href="@{/cart}"><img th:src="@{/img/cart.png}" alt="Cart"></a>
+    <a th:href="@{/account}"><img th:src="@{/img/account.png}" alt="Account"></a>
+  </div>
+</nav>
+
+<!-- Sidebar/Vertical Navigation -->
+<div class="sidebar">
+  <a th:href="@{/users/myprofile}">Profile</a>
+  <a th:href="@{/products/myproducts}">Products</a>
+  <a th:href="@{/products/add}">Add Product</a>
+  <a th:href="@{/orders/myorders}">Orders</a>
+  <a th:href="@{/address/add}">Address</a>
+  <a th:href="@{/logout}" class="logout">Log Out</a>
+</div>
+
+
+<!-- Main content area -->
+<div class="main-content">
+  <h2>My Profile</h2>
+  <div class="user-info">
+    <p>Name: <span th:text="${userDto.firstName} + ' ' + ${userDto.lastName}">John Doe</span></p>
+    <p>Email: <span th:text="${userDto.email}">john.doe@example.com</span></p>
+    <p>Contact Number: <span th:text="${userDto.contactNumber}">123-456-7890</span></p>
+    <p>Username: <span th:text="${userDto.username}">johndoe</span></p>
+    <p>Date of Birth: <span th:text="${userDto.dateOfBirth}">01/01/1990</span></p>
+  </div>
+</div>
+
+</body>
+</html>

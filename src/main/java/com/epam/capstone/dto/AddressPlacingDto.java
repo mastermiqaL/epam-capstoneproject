@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class AddressPlacingDto implements Serializable {
-    private final String country;
-    private final String city;
-    private final String postalcode;
-    private final String street;
-    private final String houseNumber;
-    private final String additionalNotes;
+    private  String country;
+    private  String city;
+    private  String postalcode;
+    private  String street;
+    private  String houseNumber;
+    private  String additionalNotes;
 
     public AddressPlacingDto(String country, String city, String postalcode, String street, String houseNumber, String additionalNotes) {
         this.country = country;
@@ -19,6 +19,8 @@ public class AddressPlacingDto implements Serializable {
         this.houseNumber = houseNumber;
         this.additionalNotes = additionalNotes;
     }
+
+    public AddressPlacingDto(){}
 
     public String getCountry() {
         return country;
@@ -42,6 +44,30 @@ public class AddressPlacingDto implements Serializable {
 
     public String getAdditionalNotes() {
         return additionalNotes;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public void setAdditionalNotes(String additionalNotes) {
+        this.additionalNotes = additionalNotes;
     }
 
     @Override

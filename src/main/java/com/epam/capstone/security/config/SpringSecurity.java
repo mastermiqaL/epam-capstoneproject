@@ -1,14 +1,12 @@
 package com.epam.capstone.security.config;
 
-import com.epam.capstone.security.filters.JwtAuthFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.epam.capstone.security.CustomAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -26,12 +24,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurity {
     private final UserDetailsService userDetailsService;
 
-    //  private final JwtAuthFilter authFilter;
 
 
     public SpringSecurity(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        //   this.authFilter = authFilter;
+
     }
 
     @Bean
@@ -48,11 +45,6 @@ public class SpringSecurity {
     }
 
 
-//    @Autowired
-//    public void configureAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .authenticationProvider(daoAuthenticationProvider());
-//    }
 
 
     @Bean
@@ -66,16 +58,19 @@ public class SpringSecurity {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/products/add", "/products/delete/{productId}").authenticated() // These paths require authentication
-                        .requestMatchers("/products/**", "/product/search", "/register", "/register/save", "/login", "/home", "/users/**", "/images/**").permitAll() // Publicly accessible paths
+                        .requestMatchers("/admin/dashboard","/admin/products/delete/{productId}").hasRole("ADMIN")
+                        .requestMatchers("/products/add","/products/add/save", "/products/delete/{productId}").hasRole("USER")
+                        .requestMatchers("/products/**", "/product/search", "/register", "/register/save", "/login", "/home", "/users/**", "/images/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
+                        .successHandler(new CustomAuthenticationSuccessHandler())
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/login"))
                 .build();
     }
 

@@ -44,7 +44,7 @@ public class AuthController {
     public String redirectToProfileOrLogin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated()) {
-            return "redirect:/profile";
+            return "redirect:/users/myprofile";
         } else {
             return "redirect:/login";
         }

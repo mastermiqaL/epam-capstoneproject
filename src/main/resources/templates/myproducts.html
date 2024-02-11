@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+      .sidebar {
+        position: fixed;
+        height: calc(100vh - 60px); /* Subtract the height of the top navbar */
+        width: 14%;
+        z-index: 1;
+        top: 60px; /* Height of the top navbar */
+        left: 0;
+        background-color: #454545;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidebar a:not(.logout) {
+        padding: 10px 8px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #ffffff;
+        display: block;
+    }
+
+    .sidebar a:hover:not(.logout) {
+        background-color: #ddd;
+        color: black;
+    }
+
+       .logout {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 14%; /* Make sure this matches the sidebar width exactly */
+        padding: 10px 8px;
+        background-color: #860000; /* Red color for Log Out */
+        color: white;
+        text-align: left;
+        font-size: 20px;
+        box-sizing: border-box; /* Ensures padding is included in width */
+    }
+
+
+   .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+
+        .product-item {
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            width: calc(100% - 20px); /* Adjust width as necessary */
+        }
+
+        .product-image {
+            width: 100px; /* Adjust size as necessary */
+            margin-right: 20px;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .delete-button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+      .main-content {
+        margin-left: 14%; /* Adjust if necessary to align with the sidebar */
+        margin-top: 20px; /* Offset top for the main nav bar */
+        padding: 10px;
+        box-sizing: border-box; /* Ensures padding does not add to width */
+    }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <div style="float: left;">
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/about}">About</a>
+    </div>
+
+    <div style="float: right;">
+        <a th:href="@{/cart}"><img th:src="@{/img/cart.png}" alt="Cart"></a>
+        <a th:href="@{/account}"><img th:src="@{/img/account.png}" alt="Account"></a>
+    </div>
+</nav>
+
+<!-- Sidebar/Vertical Navigation -->
+<div class="sidebar">
+    <a th:href="@{/users/myprofile}">Profile</a>
+    <a th:href="@{/products/myproducts}">Products</a>
+    <a th:href="@{/products/add}">Add Product</a>
+    <a th:href="@{/orders/myorders}">Orders</a>
+    <a th:href="@{/address/add}">Address</a>
+    <a th:href="@{/logout}" class="logout">Log Out</a>
+</div>
+
+<div class="main-content">
+    <div class="product-container" th:if="${not #lists.isEmpty(productList)}">
+        <div th:each="product : ${productList}" class="product-item">
+            <img th:src="'/images/'+${product.imageUrl}" alt="Product Image" class="product-image" />
+            <div class="product-info">
+                <h3 th:text="${product.name}"></h3>
+                <p>Category: <span th:text="${product.category}"></span></p>
+                <p>Price: <span th:text="${product.price}"></span></p>
+                <p>Seller: <span th:text="${product.sellerUsername}"></span></p>
+                <p>Stock: <span th:text="${product.stock}"></span></p>
+                <p>Placed on: <span th:text="${product.placeDate}"></span></p>
+                <p>Rating: <span th:text="${product.rating}"></span></p>
+                <p>Second Hand: <span th:text="${product.secondhand}"></span></p>
+                <p>Description: <span th:text="${product.description}"></span></p>
+            </div>
+            <form th:action="@{'/delete-product/' + ${product.id}}" method="get">
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
+        </div>
+    </div>
+    <div th:unless="${not #lists.isEmpty(productList)}">
+        <p>No products found.</p>
+    </div>
+</div>
+
+</body>
+</html>

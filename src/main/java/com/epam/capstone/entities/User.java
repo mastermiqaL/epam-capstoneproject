@@ -25,8 +25,6 @@ public class User {
     @Column(name = "contact_number", nullable = false, length = 40)
     private String contactNumber;
 
-    @Column(name = "gender")
-    private Integer gender;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
@@ -84,13 +82,6 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
 
     public String getContactNumber() {
         return contactNumber;

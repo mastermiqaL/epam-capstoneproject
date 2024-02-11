@@ -126,26 +126,43 @@
 <section>
     <h2>Shop top categories</h2>
 
-
-    <div class="product-container" th:if="${not #strings.isEmpty(products)}">
-        <div class="product" th:each="product : ${products}">
-            <!-- Product details here -->
-            <p th:text="${product.name}"></p>
-            <p th:text="${product.price}"></p>
-            <img th:src="@{/img/{imageName}(imageName=${product.imageUrl})}" alt="Product image"/>
-        </div>
-    </div>
     <!-- Tech category -->
-    <div class="category" id="techCategory">
+    <div class="category" th:if="${not #lists.isEmpty(techProducts)}">
         <h3>Tech</h3>
         <div class="product-container">
-            <!-- Iterate over the tech products and dynamically generate HTML -->
             <div class="product" th:each="product : ${techProducts}">
-                <!-- Product details here -->
+                <img th:src="@{'/images/' + ${product.imageUrl}}" alt="Product Image" class="product-image" />
+                <div class="product-info">
+                    <h3 th:text="${product.name}"></h3>
+                    <p>Price: <span th:text="${product.price}"></span></p>
+                </div>
             </div>
         </div>
         <a th:href="@{/tech}">See more</a>
     </div>
+
+    <!-- Books category -->
+    <div class="category" th:if="${not #lists.isEmpty(booksProducts)}">
+        <h3>Books</h3>
+        <div class="product-container">
+            <div class="product" th:each="product : ${booksProducts}">
+                <!-- Product details similar to the tech category -->
+            </div>
+        </div>
+        <a th:href="@{/books}">See more</a>
+    </div>
+
+    <!-- Plants category -->
+    <div class="category" th:if="${not #lists.isEmpty(plantsProducts)}">
+        <h3>Plants</h3>
+        <div class="product-container">
+            <div class="product" th:each="product : ${plantsProducts}">
+                <!-- Product details similar to the tech category -->
+            </div>
+        </div>
+        <a th:href="@{/plants}">See more</a>
+    </div>
+</section>
 
 <!--    &lt;!&ndash; Books category &ndash;&gt;-->
 <!--    <div class="category" id="booksCategory" th:if="${booksProducts}">-->
@@ -174,52 +191,52 @@
 
 </section>
 
-<script th:inline="javascript">
-    var categories = [
-        { name: 'Tech', products: /*[[${techProducts}]]*/ [] },
-<!--        { name: 'Books', products: /*[[${booksProducts}]]*/ [] },-->
-<!--        { name: 'Plants', products: /*[[${plantsProducts}]]*/ [] }-->
-        // Add other category data as needed
-    ];
+<!--<script th:inline="javascript">-->
+<!--    var categories = [-->
+<!--        { name: 'Tech', products: /*[[${techProducts}]]*/ [] },-->
+<!--&lt;!&ndash;        { name: 'Books', products: /*[[${booksProducts}]]*/ [] },&ndash;&gt;-->
+<!--&lt;!&ndash;        { name: 'Plants', products: /*[[${plantsProducts}]]*/ [] }&ndash;&gt;-->
+<!--        // Add other category data as needed-->
+<!--    ];-->
 
-    categories.forEach(function(category) {
-        var categoryDiv = document.getElementById(category.name.toLowerCase() + 'Category');
-        var productContainer = document.createElement('div');
-        productContainer.className = 'product-container';
+<!--    categories.forEach(function(category) {-->
+<!--        var categoryDiv = document.getElementById(category.name.toLowerCase() + 'Category');-->
+<!--        var productContainer = document.createElement('div');-->
+<!--        productContainer.className = 'product-container';-->
 
-        // Check if the category has products before iterating
-        if (category.products && category.products.length > 0) {
-            // Iterate over the products and dynamically generate HTML
-            category.products.forEach(function(product) {
-                var productDiv = document.createElement('div');
-                productDiv.className = 'product';
+<!--        // Check if the category has products before iterating-->
+<!--        if (category.products && category.products.length > 0) {-->
+<!--            // Iterate over the products and dynamically generate HTML-->
+<!--            category.products.forEach(function(product) {-->
+<!--                var productDiv = document.createElement('div');-->
+<!--                productDiv.className = 'product';-->
 
-                var productLink = document.createElement('a');
-                productLink.href = '/product/' + product.id;
+<!--                var productLink = document.createElement('a');-->
+<!--                productLink.href = '/product/' + product.id;-->
 
-                var productImage = document.createElement('img');
-                productImage.src = '/img/' + product.image;
-                productImage.alt = 'Product image';
+<!--                var productImage = document.createElement('img');-->
+<!--                productImage.src = '/images/' + product.image;-->
+<!--                productImage.alt = 'Product image';-->
 
-                var productName = document.createElement('p');
-                productName.innerText = product.name;
+<!--                var productName = document.createElement('p');-->
+<!--                productName.innerText = product.name;-->
 
-                var productPrice = document.createElement('p');
-                productPrice.innerText = product.price;
+<!--                var productPrice = document.createElement('p');-->
+<!--                productPrice.innerText = product.price;-->
 
-                productLink.appendChild(productImage);
-                productDiv.appendChild(productLink);
-                productDiv.appendChild(productName);
-                productDiv.appendChild(productPrice);
-                productContainer.appendChild(productDiv);
-            });
-        }
+<!--                productLink.appendChild(productImage);-->
+<!--                productDiv.appendChild(productLink);-->
+<!--                productDiv.appendChild(productName);-->
+<!--                productDiv.appendChild(productPrice);-->
+<!--                productContainer.appendChild(productDiv);-->
+<!--            });-->
+<!--        }-->
 
-        categoryDiv.appendChild(productContainer);
-    });
+<!--        categoryDiv.appendChild(productContainer);-->
+<!--    });-->
 
 
 
-</script>
+<!--</script>-->
 </body>
 </html>

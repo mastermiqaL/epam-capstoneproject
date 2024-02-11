@@ -29,7 +29,7 @@ public class CartitemServiceImpl implements CartitemService{
     }
 
     @Override
-    public List<ProductBasicDto> getCartItemsByUserID(Integer id) {
+    public List<ProductBasicDto> getCartItemsByUserId(Integer id) {
         List<Cartitem> cartitems=cartitemRepository.findByUserId(id);
         return cartitems.stream()
                 .map(cartitemToProductBasicMapper)

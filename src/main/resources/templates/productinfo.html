@@ -119,8 +119,7 @@
             background-color: #555;
         }
     </style>
-  <script src="authUtils.js"></script>
-  <script src="auth.js"></script>
+
 </head>
 <body>
 
@@ -159,7 +158,7 @@
     </div>
     <div class="product-attribute">
       <label>Seller:</label>
-      <a th:href="@{'/users/profile/' + ${product.sellerUsername}}" th:text="${product.sellerUsername}"></a>
+      <a th:href="@{'/products/seller/' + ${product.sellerUsername}}" th:text="${product.sellerUsername}"></a>
     </div>
     <div class="product-attribute">
       <label>Stock:</label>
