@@ -16,6 +16,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByEmail(String email);
 
-    //todo:insert update delete operaciebi aqac
+
 
 }

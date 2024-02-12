@@ -102,11 +102,11 @@ public class CartController {
             } else {
                 redirectAttributes.addFlashAttribute("failureMessage", "You don't have product in cart.");
             }
-            return "redirect:/cart"; // Redirect to the cart page after deleting the item
+            return "redirect:/cart";
 
         } catch (NoSuchElementException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-         //   return "redirect:/cart"; // Redirect to the cart page if an error occurs
+
         }
         return "redirect:/cart";
     }

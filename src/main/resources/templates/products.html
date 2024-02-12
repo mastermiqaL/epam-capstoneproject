@@ -156,10 +156,18 @@
         <!-- Categories -->
         <div>
             <label>Categories</label>
-            <div>
-                <input type="checkbox" id="categoryTech" name="categories" value="Tech">
-                <label for="categoryTech">Tech</label>
-                <!-- Add other categories similarly -->
+            <div class="category-container">
+                <div><input type="checkbox" id="categoryTech" name="categories" value="Tech">
+                    <label for="categoryTech">Tech</label></div>
+
+                <div><input type="checkbox" id="categoryBooks" name="categories" value="Books">
+                    <label for="categoryBooks">Books</label></div>
+
+                <div><input type="checkbox" id="categoryFashion" name="categories" value="Fashion">
+                    <label for="categoryFashion">Fashion</label></div>
+
+                <div><input type="checkbox" id="categoryAccessories" name="categories" value="Accessories">
+                    <label for="categoryAccessories">Accessories</label></div>
             </div>
         </div>
         <hr/>
@@ -187,7 +195,7 @@
     </fieldset>
 </form>
 
-<!-- Product container for displaying search results -->
+
 <div class="product-container" id="productContainer">
     <!-- Products will be dynamically added here -->
 </div>
@@ -196,7 +204,6 @@
 <script th:inline="javascript">
     var products = /*[[${products}]]*/ [];
 
-    // Function to update the product container with search results
     function updateProductContainer(products) {
         var productContainer = document.getElementById('productContainer');
         productContainer.innerHTML = ''; // Clear existing content
@@ -237,7 +244,7 @@
         }
     }
 
-    // Call the function on page load
+
     updateProductContainer(products);
 </script>
 

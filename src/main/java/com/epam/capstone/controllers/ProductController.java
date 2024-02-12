@@ -116,12 +116,7 @@ public class ProductController {
                                  @RequestParam(name = "size", defaultValue = "12") int size) {
         PageRequest pageable = PageRequest.of(page, size);
         List<ProductBasicDto> searchResults = productService.getSearchResult(productName, pageable);
-
-        // Add the search results to the model
         model.addAttribute("products", searchResults);
-
-        // Other existing code
-
         return "products";
     }
 

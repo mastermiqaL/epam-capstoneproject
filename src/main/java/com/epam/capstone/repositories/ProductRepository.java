@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
 
-    //TODO:insertebi updatebi da delete operaciebi minda
+
 
     Optional<Product> findById(Integer id);
 

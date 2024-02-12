@@ -62,28 +62,6 @@ public class AuthController {
     }
 
 
-//    @PostMapping("/login")
-//    public String login(@RequestBody AuthRequestDto authRequestDto) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            authRequestDto.getEmail(),
-//                            authRequestDto.getPassword()
-//                    )
-//            );
-//
-//            if (authentication.isAuthenticated()) {
-//                return "redirect:/home";
-//            } else {
-//                return "redirect:/login";
-//            }
-//        } catch (AuthenticationException e) {
-//            return "redirect:/login?error=Authentication failed. Please check your credentials.";
-//        }
-//
-//    }
-
-
     @GetMapping(value = "/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new RegistrationRequestDto());
@@ -110,9 +88,8 @@ public class AuthController {
             return "register";
         }
 
-        // Redirect to a success page or login page after successful registration
         redirectAttributes.addFlashAttribute("successMessage", "Registration successful. Please login.");
-        return "redirect:/login"; // Assuming you have a controller handling /login
+        return "redirect:/login";
     }
 
 

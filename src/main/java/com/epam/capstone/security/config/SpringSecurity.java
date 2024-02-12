@@ -24,11 +24,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurity {
     private final UserDetailsService userDetailsService;
 
-
-
     public SpringSecurity(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-
     }
 
     @Bean
@@ -44,14 +41,10 @@ public class SpringSecurity {
         return authenticationProvider;
     }
 
-
-
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

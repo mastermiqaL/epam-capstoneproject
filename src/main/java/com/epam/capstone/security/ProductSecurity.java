@@ -19,7 +19,7 @@ public class ProductSecurity {
 
     @PreAuthorize("hasRole('USER')")
     public boolean canAddProduct() {
-        // Additional logic if needed
+
         return true;
     }
 }

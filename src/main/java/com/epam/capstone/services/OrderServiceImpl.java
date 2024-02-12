@@ -50,7 +50,6 @@ public class OrderServiceImpl implements OrderService{
             order.setOrderDate(LocalDate.now());
             return orderRepository.save(order);
         } else {
-            // Handle the case where authentication or user details are not available
             throw new IllegalStateException("Unable to retrieve authenticated user details.");
         }
     }
