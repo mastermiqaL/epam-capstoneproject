@@ -20,10 +20,7 @@ public class ProductSpecification {
                 criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 
-    //    public static Specification<Product> isSecondHand(boolean isSecondHand) {
-//        return (root, query, criteriaBuilder) ->
-//                criteriaBuilder.equal(root.get("secondhand"), isSecondHand);
-//    }
+
     public static Specification<Product> isSecondHand(IsSecondHandEnum isSecondHand) {
         return (root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("secondhand"), isSecondHand);

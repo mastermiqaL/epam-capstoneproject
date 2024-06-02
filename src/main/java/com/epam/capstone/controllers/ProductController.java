@@ -47,16 +47,16 @@ public class ProductController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/products/myproducts")
     public String getMyProducts(Model model){
-        logger.info("in method");
+       // logger.info("in method");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
             return "redirect:/login";
         }
-        logger.info("authenticatio is not null");
+      //  logger.info("authenticatio is not null");
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        logger.info("casted successfully");
+      //  logger.info("casted successfully");
         List<ProductDto> productList = productService.getProductsDtoBySellerId(userDetails.getUserId());
-        logger.info("product list:" + productList.toString());
+        //logger.info("product list:" + productList.toString());
         model.addAttribute("productList",productList);
         return "myproducts";
     }
